@@ -1,6 +1,6 @@
 {
-  "name": "ThreadLink",
-  "version": "1.0.0",
+  "name": "thread-link",
+  "version": "1.0.1",
   "description": "ThreadLink client",
   "main": "index.js",
   "scripts": {

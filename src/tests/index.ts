@@ -47,11 +47,15 @@ async function testE2E() {
     text: 'Hello',
     actorId: actors1a1[0].id,
     providerId: actors1a1[0].providers[0].id,
+    templateName: "",
+    templateParams: {},
   });
   await account1PublicClient.replyInThread(topic1a1Id, thread1a1Id, {
     text: 'Hello there',
     actorId: actors1a1[1].id,
     providerId: actors1a1[1].providers[0].id,
+    templateName: "",
+    templateParams: {},
   });
 
   const messages1a1 = await account1PublicClient.getTopicMessages(thread1a1Id, topic1a1Id);

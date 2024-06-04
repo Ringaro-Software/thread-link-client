@@ -22,7 +22,7 @@ Installation
 You can install the library via npm:
 
 ```sh
-npm install cochami-client
+npm install thread-link
 ```
 
 Usage
@@ -34,7 +34,7 @@ The public client provides methods to interact with CoChaMi's public endpoints. 
 
 
 ```typescript
-import { PublicClient } from 'cochami-client';
+import { PublicClient } from 'thread-link';
 
 const publicClient = new PublicClient();
 
@@ -49,7 +49,7 @@ publicClient.getMessages()
 The admin client provides methods to interact with CoChaMi's admin endpoints. Here's an example of how to use the admin client:
 
 ```typescript
-import { AdminClient } from 'cochami-client';
+import { AdminClient } from 'thread-link';
 
 const adminClient = new AdminClient();
 
