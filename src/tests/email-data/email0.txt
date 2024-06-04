@@ -1,0 +1,52 @@
+MIME-Version: 1.0
+Date: Sat, 1 Jun 2024 11:51:26 +0200
+References: <aS61aMJcRG-NoYKDW_NW8A@geopod-ismtpd-7> <CADRm5qw=qzjGyPRRWFyfDsDmGJ9RZgPoEA5odfv2hegKVO0aGg@mail.gmail.com> <J357UIXCRU2wYx7L-Bh06A@geopod-ismtpd-1> <CADRm5qz=TH=Ug_-6aF-UaHrkmGBsVd1UnPhqcaTw64zOxEkD1g@mail.gmail.com>
+In-Reply-To: <CADRm5qz=TH=Ug_-6aF-UaHrkmGBsVd1UnPhqcaTw64zOxEkD1g@mail.gmail.com>
+Message-ID: <CADRm5qzUQhCkXZyAKaxzRNqjq_BzX-E_j6gbRUxe4=CYMR=NBw@mail.gmail.com>
+Subject: Re: Sending with SendGrid is Fun
+From: Vlad Rotaru <cuzzea@vmlsoft.com>
+To: vlad.rotaru@vmlsoft.com
+Content-Type: multipart/alternative; boundary="0000000000003c025c0619d10b70"
+
+--0000000000003c025c0619d10b70
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+qqq
+
+On Mon, May 27, 2024 at 9:38=E2=80=AFAM Vlad Rotaru <cuzzea@vmlsoft.com> wr=
+ote:
+
+> asd
+>
+> On Mon, May 27, 2024 at 9:23=E2=80=AFAM <cuzzea@vmlsoft.com> wrote:
+>
+>> *reply 8*
+>
+>
+
+--0000000000003c025c0619d10b70
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">qqq</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" c=
+lass=3D"gmail_attr">On Mon, May 27, 2024 at 9:38=E2=80=AFAM Vlad Rotaru &lt=
+;<a href=3D"mailto:cuzzea@vmlsoft.com">cuzzea@vmlsoft.com</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204=
+,204);padding-left:1ex"><div dir=3D"ltr"><div>asd</div><br><div class=3D"gm=
+ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 27, 2024 at 9:=
+23=E2=80=AFAM &lt;<a href=3D"mailto:cuzzea@vmlsoft.com" target=3D"_blank">c=
+uzzea@vmlsoft.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:=
+solid;border-left-color:rgb(204,204,204);padding-left:1ex"><strong>reply 8<=
+/strong><img src=3D"https://u44689465.ct.sendgrid.net/wf/open?upn=3Du001.yC=
+xDP8O6-2F-2FWgy54ej34H2axqprP-2Fk-2BFj2X1o8Vx00-2BHwEpfdkA86517q3INjNPoEK-2=
+FtsO-2FYZr73GVd-2BpH7SojHXHtekQQVB-2BZ2-2B1ieIZO7BAL-2FFyI7UvrIqN31PPJev202=
+pvuRE-2BbjqYbTJGmeuen8QX98wwKFrZblrl70LV-2B2nU0oraHJDiYIYxuZYUKa9E9QRr1AhQP=
+hxy7YQFFfL5NQAxr0WbK9dbfleyy4nk2UQ-3D" alt=3D"" width=3D"1" height=3D"1" bo=
+rder=3D"0" style=3D"height: 1px; width: 1px; border-width: 0px; margin: 0px=
+; padding: 0px;"></blockquote></div></div>
+</blockquote></div>
+
+--0000000000003c025c0619d10b70--

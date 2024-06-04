@@ -1,0 +1,30 @@
+{
+  "name": "ThreadLink",
+  "version": "1.0.0",
+  "description": "ThreadLink client",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start:admin": "node dist/admin/cli.js",
+    "start:public": "node dist/public/cli.js",
+    "test": "ts-node src/tests/index.ts"
+  },
+  "bin": {
+    "cochami-admin": "./dist/admin/cli.js",
+    "cochami": "./dist/public/cli.js"
+  },
+  "keywords": [],
+  "author": "Vlad Rotaru",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/commander": "^2.12.2",
+    "@types/node": "^20.12.13",
+    "ts-node": "^10.9.2",
+    "tsc-node": "^0.0.3",
+    "typescript": "^5.4.5"
+  }
+}

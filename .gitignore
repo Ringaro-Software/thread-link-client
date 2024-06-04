@@ -1,0 +1,28 @@
+# Dependency directories
+node_modules/
+dist/
+
+# Build output
+build/
+
+# IDE files
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Environment variables
+.env
+
+# Compiled output
+*.js
+*.js.map
+
+# Test coverage
+coverage/
+
+# Editor-specific files
+*.swp
+*.swo
+*.bak
