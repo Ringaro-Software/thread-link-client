@@ -68,7 +68,7 @@ The library includes command-line interfaces (CLI) for interacting with both pub
 The public CLI can be used to interact with public endpoints. Here's an example:
 
 ```bash
-npx Thread Link-public-cli get-messages
+npx thread-link get-messages
 ```
 
 #### Commands
@@ -82,7 +82,7 @@ npx Thread Link-public-cli get-messages
 The admin CLI can be used to interact with admin endpoints. Here's an example:
 
 ```sh
-npx Thread Link-admin-cli get-accounts
+npx thread-link-admin get-accounts
 ```
 
 #### Commands
