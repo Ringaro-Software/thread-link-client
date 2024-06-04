@@ -1,7 +1,7 @@
-CoChaMi Client Library
+Thread Link Client Library
 ======================
 
-This library provides a client for interacting with CoChaMi's public and admin endpoints. It includes both a programmatic interface and command-line tools for ease of use.
+This library provides a client for interacting with Thread Link's public and admin endpoints. It includes both a programmatic interface and command-line tools for ease of use.
 
 Table of Contents
 -----------------
@@ -30,7 +30,7 @@ Usage
 
 ### Public Client
 
-The public client provides methods to interact with CoChaMi's public endpoints. Here's an example of how to use the public client:
+The public client provides methods to interact with Thread Link's public endpoints. Here's an example of how to use the public client:
 
 
 ```typescript
@@ -46,7 +46,7 @@ publicClient.getMessages()
 
 ### Admin Client
 
-The admin client provides methods to interact with CoChaMi's admin endpoints. Here's an example of how to use the admin client:
+The admin client provides methods to interact with Thread Link's admin endpoints. Here's an example of how to use the admin client:
 
 ```typescript
 import { AdminClient } from 'thread-link';
@@ -68,7 +68,7 @@ The library includes command-line interfaces (CLI) for interacting with both pub
 The public CLI can be used to interact with public endpoints. Here's an example:
 
 ```bash
-npx cochami-public-cli get-messages
+npx Thread Link-public-cli get-messages
 ```
 
 #### Commands
@@ -82,7 +82,7 @@ npx cochami-public-cli get-messages
 The admin CLI can be used to interact with admin endpoints. Here's an example:
 
 ```sh
-npx cochami-admin-cli get-accounts
+npx Thread Link-admin-cli get-accounts
 ```
 
 #### Commands

@@ -2,7 +2,7 @@ import { AccountDto, CreateAccountDto } from "../oas";
 import { AdminClient } from "./adminClient";
 import { ProviderConfigurations } from "./providerConfigurations";
 
-export class CoChaMiAccount {
+export class ThreadLinkAccount {
     private slug: string;
     private client: AdminClient;
     public providers: ProviderConfigurations;

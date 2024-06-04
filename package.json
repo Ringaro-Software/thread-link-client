@@ -1,6 +1,6 @@
 {
   "name": "thread-link",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "ThreadLink client",
   "main": "index.js",
   "scripts": {
@@ -10,8 +10,8 @@
     "test": "ts-node src/tests/index.ts"
   },
   "bin": {
-    "cochami-admin": "./dist/admin/cli.js",
-    "cochami": "./dist/public/cli.js"
+    "thread-link-admin": "./dist/admin/cli.js",
+    "thread-link": "./dist/public/cli.js"
   },
   "keywords": [],
   "author": "Vlad Rotaru",

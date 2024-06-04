@@ -1,12 +1,12 @@
 // E2E tests 
 
-import { AdminClient, CoChaMiAccount } from "../admin";
+import { AdminClient, ThreadLinkAccount } from "../admin";
 import { PublicClient } from "../public/publicClient";
 import { generateThread } from "./data";
 
 async function testE2E() {
   const adminClient = new AdminClient('http://localhost:3000', '34asD%^&$U675ruytfh');
-  const adminAccount1 = new CoChaMiAccount('cuzzea_test', adminClient);
+  const adminAccount1 = new ThreadLinkAccount('cuzzea_test', adminClient);
   await adminAccount1.init({
     accountSlug: 'cuzzea_test',
     accountName: 'Cuzzea Test',
@@ -15,7 +15,7 @@ async function testE2E() {
   const account1Info = await adminAccount1.get();
   const account1Token = account1Info.token;
 
-  const adminAccount2 = new CoChaMiAccount('cuzzea_test2', adminClient);
+  const adminAccount2 = new ThreadLinkAccount('cuzzea_test2', adminClient);
   await adminAccount2.init({
     accountSlug: 'cuzzea_test2',
     accountName: 'Cuzzea Test 2',

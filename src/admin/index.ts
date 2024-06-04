@@ -1,3 +1,3 @@
 export * from './adminClient';
-export * from './coChaMiAccount';
+export * from './threadLinkAccount';
 export * from './providerConfigurations';

@@ -34,7 +34,7 @@ const saveConfig = (config: Config) => {
 const config = loadConfig();
 
 program
-    .name('cochami')
+    .name('thread-link')
     .description('CLI to interact with the PublicClient')
     .version('1.0.0');
 

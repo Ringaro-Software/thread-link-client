@@ -2,7 +2,7 @@
 
 import { Command } from 'commander';
 import { AdminClient } from './adminClient';
-import { CoChaMiAccount } from './coChaMiAccount';
+import { ThreadLinkAccount } from './threadLinkAccount';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -10,8 +10,8 @@ const program = new Command();
 const configPath = path.join(__dirname, 'config.json');
 
 program
-    .name('cochami-admin')
-    .description('CLI to interact with the AdminClient and CoChaMiAccount')
+    .name('thread-link-admin')
+    .description('CLI to interact with the AdminClient and ThreadLinkAccount')
     .version('1.0.0');
 
 interface Config {
@@ -62,7 +62,7 @@ program
     .description('Initialize an account if it does not exist')
     .option('-n, --name <name>', 'Account name')
     .action(async (slug, options) => {
-        const account = new CoChaMiAccount(slug, getClient());
+        const account = new ThreadLinkAccount(slug, getClient());
         const accountData = { accountSlug: slug, accountName: options.name};
         try {
             await account.init(accountData);
@@ -76,7 +76,7 @@ program
     .command('account <slug>')
     .description('Get account information')
     .action(async (slug) => {
-        const account = new CoChaMiAccount(slug, getClient());
+        const account = new ThreadLinkAccount(slug, getClient());
         let info;
         try {
             info = await account.get();
@@ -90,7 +90,7 @@ program
     .command('accounts')
     .description('Get all accounts')
     .action(async (slug) => {
-        const account = new CoChaMiAccount(slug, getClient());
+        const account = new ThreadLinkAccount(slug, getClient());
         let info;
         try {
             info = await account.list();
@@ -105,7 +105,7 @@ program
     .description('Update account information')
     .option('-n, --name <name>', 'Account name')
     .action(async (slug, options) => {
-        const account = new CoChaMiAccount(slug, getClient());
+        const account = new ThreadLinkAccount(slug, getClient());
         const accountData = { accountSlug: slug, accountName: options.name };
         const res = await account.update(accountData);
         console.log(`Account ${slug} updated`);
@@ -116,7 +116,7 @@ program
     .command('provider <slug> <name>')
     .description('Get a provider configuration by name')
     .action(async (slug, name) => {
-        const account = new CoChaMiAccount(slug, getClient());
+        const account = new ThreadLinkAccount(slug, getClient());
         const providerConfig = await account.providers.get(name);
         parseResponse(providerConfig);
     });
@@ -126,7 +126,7 @@ program
     .description('Update a provider configuration')
     .option('-c, --config <config>', 'Provider configuration in JSON format')
     .action(async (slug, name, options) => {
-        const account = new CoChaMiAccount(slug, getClient());
+        const account = new ThreadLinkAccount(slug, getClient());
         const configData = JSON.parse(options.config);
         const res = await account.providers.update(name, configData);
         console.log(`Provider ${name} updated`);
@@ -137,7 +137,7 @@ program
     .command('providers <slug>')
     .description('List all provider configurations')
     .action(async (slug) => {
-        const account = new CoChaMiAccount(slug, getClient());
+        const account = new ThreadLinkAccount(slug, getClient());
         const res = await account.providers.list();
         parseResponse(res);
     });
@@ -148,7 +148,7 @@ program
     .option('-n, --name <name>', 'Provider name')
     .option('-c, --config <config>', 'Provider configuration in JSON format')
     .action(async (slug, options) => {
-        const account = new CoChaMiAccount(slug, getClient());
+        const account = new ThreadLinkAccount(slug, getClient());
         const configData = { providerName: options.name, providerConfig: JSON.parse(options.config) };
         const res = await account.providers.create(configData);
         console.log(`Provider ${options.name} created`);
