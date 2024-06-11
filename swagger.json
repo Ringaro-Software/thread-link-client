@@ -292,7 +292,16 @@
       "get": {
         "operationId": "TopicsController_findAll",
         "summary": "Get all topics",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "filter",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "The topics",
@@ -948,6 +957,25 @@
       }
     },
     "schemas": {
+      "TagValueDTO": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The tag key",
+            "example": "key"
+          },
+          "value": {
+            "type": "string",
+            "description": "The tag value",
+            "example": "value"
+          }
+        },
+        "required": [
+          "key",
+          "value"
+        ]
+      },
       "ActorProviderDTO": {
         "type": "object",
         "properties": {
@@ -976,6 +1004,19 @@
             "description": "The actor provider specific data",
             "example": {
               "something": "something"
+            }
+          },
+          "tags": {
+            "description": "The tags.",
+            "example": [
+              {
+                "key": "key",
+                "value": "value"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TagValueDTO"
             }
           }
         },
@@ -1006,9 +1047,23 @@
                 }
               }
             ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorProviderDTO"
+              }
+            ]
+          },
+          "tags": {
+            "description": "The tags.",
+            "example": [
+              {
+                "key": "key",
+                "value": "value"
+              }
+            ],
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ActorProviderDTO"
+              "$ref": "#/components/schemas/TagValueDTO"
             }
           }
         },
@@ -1047,6 +1102,19 @@
               "name": "John Doe",
               "email": "johndoe@test.com"
             }
+          },
+          "tags": {
+            "description": "The tags.",
+            "example": [
+              {
+                "key": "key",
+                "value": "value"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TagValueDTO"
+            }
           }
         },
         "required": [
@@ -1062,22 +1130,37 @@
         "properties": {
           "actors": {
             "description": "The actors",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CreateActorDTO"
-            }
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CreateActorDTO"
+              }
+            ]
           },
           "messages": {
             "description": "The messages",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CreateMessageDTO"
-            }
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CreateMessageDTO"
+              }
+            ]
           },
           "subject": {
             "type": "string",
             "description": "The subject",
             "example": "Hello, how are you?"
+          },
+          "tags": {
+            "description": "The tags.",
+            "example": [
+              {
+                "key": "key",
+                "value": "value"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TagValueDTO"
+            }
           }
         },
         "required": [
@@ -1110,10 +1193,11 @@
                 }
               }
             ],
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ActorProviderDTO"
-            }
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorProviderDTO"
+              }
+            ]
           }
         },
         "required": [
@@ -1169,17 +1253,19 @@
           },
           "actors": {
             "description": "The actors",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ActorDTO"
-            }
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorDTO"
+              }
+            ]
           },
           "messages": {
             "description": "The messages",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MessageDTO"
-            }
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageDTO"
+              }
+            ]
           },
           "subject": {
             "type": "string",
@@ -1223,10 +1309,11 @@
           },
           "tags": {
             "description": "The tags",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CreateTagDTO"
-            }
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CreateTagDTO"
+              }
+            ]
           }
         },
         "required": [
@@ -1274,17 +1361,19 @@
           },
           "tags": {
             "description": "The tags",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TagDTO"
-            }
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TagDTO"
+              }
+            ]
           },
           "threads": {
             "description": "The threads",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ThreadDTO"
-            }
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ThreadDTO"
+              }
+            ]
           }
         },
         "required": [

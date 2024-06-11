@@ -1,3 +1,4 @@
+import { TopicFilterDTO } from '../oas';
 import { PublicClient } from './publicClient';
 
 export class Topics {
@@ -11,8 +12,8 @@ export class Topics {
     return await this.client.createTopic(topicData);
   }
 
-  async findAll() {
-    return await this.client.findAllTopics();
+  async findAll(filter?: TopicFilterDTO) {
+    return await this.client.findAllTopics(filter);
   }
 
   async findById(id: string) {

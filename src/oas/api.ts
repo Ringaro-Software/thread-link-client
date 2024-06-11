@@ -74,10 +74,10 @@ export interface ActorDTO {
     'externalId': string;
     /**
      * The actor providers
-     * @type {Array<ActorProviderDTO>}
+     * @type {ActorProviderDTO}
      * @memberof ActorDTO
      */
-    'providers': Array<ActorProviderDTO>;
+    'providers': ActorProviderDTO[];
 }
 /**
  * 
@@ -115,6 +115,12 @@ export interface ActorProviderDTO {
      * @memberof ActorProviderDTO
      */
     'providerSpecificData': object;
+    /**
+     * The tags.
+     * @type {Array<TagValueDTO>}
+     * @memberof ActorProviderDTO
+     */
+    'tags'?: Array<TagValueDTO>;
 }
 /**
  * 
@@ -149,10 +155,16 @@ export interface CreateActorDTO {
     'externalId': string;
     /**
      * The actor providers
-     * @type {Array<ActorProviderDTO>}
+     * @type {ActorProviderDTO}
      * @memberof CreateActorDTO
      */
-    'providers': Array<ActorProviderDTO>;
+    'providers': ActorProviderDTO;
+    /**
+     * The tags.
+     * @type {Array<TagValueDTO>}
+     * @memberof CreateActorDTO
+     */
+    'tags'?: Array<TagValueDTO>;
 }
 /**
  * 
@@ -190,6 +202,12 @@ export interface CreateMessageDTO {
      * @memberof CreateMessageDTO
      */
     'templateParams': object;
+    /**
+     * The tags.
+     * @type {Array<TagValueDTO>}
+     * @memberof CreateMessageDTO
+     */
+    'tags'?: Array<TagValueDTO>;
 }
 /**
  * 
@@ -255,23 +273,45 @@ export interface CreateTagDTO {
 export interface CreateThreadDTO {
     /**
      * The actors
-     * @type {Array<CreateActorDTO>}
+     * @type {CreateActorDTO}
      * @memberof CreateThreadDTO
      */
-    'actors': Array<CreateActorDTO>;
+    'actors': CreateActorDTO;
     /**
      * The messages
-     * @type {Array<CreateMessageDTO>}
+     * @type {CreateMessageDTO}
      * @memberof CreateThreadDTO
      */
-    'messages': Array<CreateMessageDTO>;
+    'messages': CreateMessageDTO;
     /**
      * The subject
      * @type {string}
      * @memberof CreateThreadDTO
      */
     'subject': string;
+    /**
+     * The tags.
+     * @type {Array<TagValueDTO>}
+     * @memberof CreateThreadDTO
+     */
+    'tags'?: Array<TagValueDTO>;
 }
+
+
+export interface TopicFilterDTO {
+    id?: string[];
+
+    externalId?: string[];
+
+    tags?: TagValueDTO[];
+}
+
+export interface TagValueDTO {
+    key: string;
+  
+    value: string;
+}
+  
 /**
  * 
  * @export
@@ -286,10 +326,10 @@ export interface CreateTopicDTO {
     'externalId': string;
     /**
      * The tags
-     * @type {Array<CreateTagDTO>}
+     * @type {CreateTagDTO}
      * @memberof CreateTopicDTO
      */
-    'tags': Array<CreateTagDTO>;
+    'tags': CreateTagDTO[];
 }
 /**
  * 
@@ -412,6 +452,25 @@ export interface TagDTO {
 /**
  * 
  * @export
+ * @interface TagValueDTO
+ */
+export interface TagValueDTO {
+    /**
+     * The tag key
+     * @type {string}
+     * @memberof TagValueDTO
+     */
+    'key': string;
+    /**
+     * The tag value
+     * @type {string}
+     * @memberof TagValueDTO
+     */
+    'value': string;
+}
+/**
+ * 
+ * @export
  * @interface ThreadDTO
  */
 export interface ThreadDTO {
@@ -423,16 +482,16 @@ export interface ThreadDTO {
     'id': string;
     /**
      * The actors
-     * @type {Array<ActorDTO>}
+     * @type {ActorDTO}
      * @memberof ThreadDTO
      */
-    'actors': Array<ActorDTO>;
+    'actors': ActorDTO[];
     /**
      * The messages
-     * @type {Array<MessageDTO>}
+     * @type {MessageDTO}
      * @memberof ThreadDTO
      */
-    'messages': Array<MessageDTO>;
+    'messages': MessageDTO;
     /**
      * The subject
      * @type {string}
@@ -460,16 +519,16 @@ export interface TopicDTO {
     'externalId': string;
     /**
      * The tags
-     * @type {Array<TagDTO>}
+     * @type {TagDTO}
      * @memberof TopicDTO
      */
-    'tags': Array<TagDTO>;
+    'tags': TagDTO;
     /**
      * The threads
-     * @type {Array<ThreadDTO>}
+     * @type {ThreadDTO}
      * @memberof TopicDTO
      */
-    'threads': Array<ThreadDTO>;
+    'threads': ThreadDTO;
 }
 /**
  * 
@@ -2325,10 +2384,11 @@ export const PublicTopicsApiAxiosParamCreator = function (configuration?: Config
         /**
          * 
          * @summary Get all topics
+         * @param {string} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        topicsControllerFindAll: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        topicsControllerFindAll: async (filter?: TopicFilterDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/coms/topics`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2344,6 +2404,10 @@ export const PublicTopicsApiAxiosParamCreator = function (configuration?: Config
             // authentication x-auth-token required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
 
 
     
@@ -2420,11 +2484,12 @@ export const PublicTopicsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get all topics
+         * @param {string} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async topicsControllerFindAll(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<TopicDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.topicsControllerFindAll(options);
+        async topicsControllerFindAll(filter?: TopicFilterDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<TopicDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.topicsControllerFindAll(filter, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PublicTopicsApi.topicsControllerFindAll']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -2465,11 +2530,12 @@ export const PublicTopicsApiFactory = function (configuration?: Configuration, b
         /**
          * 
          * @summary Get all topics
+         * @param {string} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        topicsControllerFindAll(options?: any): AxiosPromise<Array<TopicDTO>> {
-            return localVarFp.topicsControllerFindAll(options).then((request) => request(axios, basePath));
+        topicsControllerFindAll(filter?: TopicFilterDTO, options?: any): AxiosPromise<Array<TopicDTO>> {
+            return localVarFp.topicsControllerFindAll(filter, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2506,12 +2572,13 @@ export class PublicTopicsApi extends BaseAPI {
     /**
      * 
      * @summary Get all topics
+     * @param {string} [filter] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PublicTopicsApi
      */
-    public topicsControllerFindAll(options?: RawAxiosRequestConfig) {
-        return PublicTopicsApiFp(this.configuration).topicsControllerFindAll(options).then((request) => request(this.axios, this.basePath));
+    public topicsControllerFindAll(filter?: TopicFilterDTO, options?: RawAxiosRequestConfig) {
+        return PublicTopicsApiFp(this.configuration).topicsControllerFindAll(filter, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

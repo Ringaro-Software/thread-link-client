@@ -1,4 +1,4 @@
-import { Configuration, CreateMessageDTO, CreateTopicDTO, PublicMessageTemplatesApi, PublicMessagesApi, PublicThreadsApi, PublicTopicsApi } from '../oas';
+import { Configuration, CreateMessageDTO, CreateTopicDTO, PublicMessageTemplatesApi, PublicMessagesApi, PublicThreadsApi, PublicTopicsApi, TopicFilterDTO } from '../oas';
 
 export class PublicClient {
   private messagesApi: PublicMessagesApi;
@@ -44,8 +44,8 @@ export class PublicClient {
     return (await this.topicsApi.topicsControllerCreate(topicData)).data;
   }
 
-  async findAllTopics() {
-    return (await this.topicsApi.topicsControllerFindAll()).data;
+  async findAllTopics(filter?: TopicFilterDTO) {
+    return (await this.topicsApi.topicsControllerFindAll(filter)).data;
   }
 
   async findTopicById(id: string) {
