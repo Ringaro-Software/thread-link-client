@@ -1,8 +1,8 @@
 {
   "name": "thread-link",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "ThreadLink client",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "start:admin": "node dist/admin/cli.js",
@@ -13,6 +13,11 @@
     "thread-link-admin": "./dist/admin/cli.js",
     "thread-link": "./dist/public/cli.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "package.json"
+  ],
   "keywords": [],
   "author": "Vlad Rotaru",
   "license": "ISC",
