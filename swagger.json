@@ -298,7 +298,7 @@
             "required": false,
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "object"
             }
           }
         ],
@@ -976,14 +976,9 @@
           "value"
         ]
       },
-      "ActorProviderDTO": {
+      "CreateActorProviderDTO": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "description": "The actor ID",
-            "example": "5f3a7b3d8e1d1d001f5b1e3c"
-          },
           "externalId": {
             "type": "string",
             "description": "The actor external ID",
@@ -1021,7 +1016,6 @@
           }
         },
         "required": [
-          "id",
           "externalId",
           "providerSlug",
           "identifier",
@@ -1047,11 +1041,10 @@
                 }
               }
             ],
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorProviderDTO"
-              }
-            ]
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateActorProviderDTO"
+            }
           },
           "tags": {
             "description": "The tags.",
@@ -1130,24 +1123,27 @@
         "properties": {
           "actors": {
             "description": "The actors",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/CreateActorDTO"
-              }
-            ]
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateActorDTO"
+            }
           },
           "messages": {
             "description": "The messages",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/CreateMessageDTO"
-              }
-            ]
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateMessageDTO"
+            }
           },
           "subject": {
             "type": "string",
             "description": "The subject",
             "example": "Hello, how are you?"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "The topic external ID",
+            "example": "5f3a7b3d8e1d1d001f5b1e3c"
           },
           "tags": {
             "description": "The tags.",
@@ -1166,7 +1162,60 @@
         "required": [
           "actors",
           "messages",
-          "subject"
+          "subject",
+          "externalId"
+        ]
+      },
+      "ActorProviderDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The actor ID",
+            "example": "5f3a7b3d8e1d1d001f5b1e3c"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "The actor external ID",
+            "example": "5f3a7b3d8e1d1d001f5b1e3c"
+          },
+          "providerSlug": {
+            "type": "string",
+            "description": "The actor available providers",
+            "example": "ses"
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The actor identifier (given by provider)",
+            "example": "johndoe@test.com"
+          },
+          "providerSpecificData": {
+            "type": "object",
+            "description": "The actor provider specific data",
+            "example": {
+              "something": "something"
+            }
+          },
+          "tags": {
+            "description": "The tags.",
+            "example": [
+              {
+                "key": "key",
+                "value": "value"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TagValueDTO"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "externalId",
+          "providerSlug",
+          "identifier",
+          "providerSpecificData"
         ]
       },
       "ActorDTO": {
@@ -1193,11 +1242,10 @@
                 }
               }
             ],
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorProviderDTO"
-              }
-            ]
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActorProviderDTO"
+            }
           }
         },
         "required": [
@@ -1253,32 +1301,87 @@
           },
           "actors": {
             "description": "The actors",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorDTO"
-              }
-            ]
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActorDTO"
+            }
           },
           "messages": {
             "description": "The messages",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/MessageDTO"
-              }
-            ]
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessageDTO"
+            }
           },
           "subject": {
             "type": "string",
             "description": "The subject",
             "example": "Hello, how are you?"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "The topic external ID",
+            "example": "5f3a7b3d8e1d1d001f5b1e3c"
+          },
+          "tags": {
+            "description": "The tags.",
+            "example": [
+              {
+                "key": "key",
+                "value": "value"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TagValueDTO"
+            }
           }
         },
         "required": [
           "id",
           "actors",
           "messages",
-          "subject"
+          "subject",
+          "externalId"
         ]
+      },
+      "TopicFilterDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "The topic IDs. The ids will be queried using OR.",
+            "example": [
+              "5f3a7b3d8e1d1d001f5b1e3c"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "externalId": {
+            "description": "The topic external IDs. The ids will be queried using OR.",
+            "example": [
+              "5f3a7b3d8e1d1d001f5b1e3c"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tags": {
+            "description": "The tags. The tags will be queried using the OR.",
+            "example": [
+              {
+                "key": "key",
+                "value": "value"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TagValueDTO"
+            }
+          }
+        }
       },
       "CreateTagDTO": {
         "type": "object",
@@ -1309,11 +1412,10 @@
           },
           "tags": {
             "description": "The tags",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/CreateTagDTO"
-              }
-            ]
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateTagDTO"
+            }
           }
         },
         "required": [
