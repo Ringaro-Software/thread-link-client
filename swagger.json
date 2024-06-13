@@ -1215,7 +1215,8 @@
           "externalId",
           "providerSlug",
           "identifier",
-          "providerSpecificData"
+          "providerSpecificData",
+          "tags"
         ]
       },
       "ActorDTO": {
@@ -1245,6 +1246,19 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ActorProviderDTO"
+            }
+          },
+          "tags": {
+            "description": "The tags.",
+            "example": [
+              {
+                "key": "key",
+                "value": "value"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TagValueDTO"
             }
           }
         },
@@ -1320,7 +1334,7 @@
           },
           "externalId": {
             "type": "string",
-            "description": "The topic external ID",
+            "description": "The thread external ID",
             "example": "5f3a7b3d8e1d1d001f5b1e3c"
           },
           "tags": {

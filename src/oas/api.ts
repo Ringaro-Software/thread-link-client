@@ -78,6 +78,12 @@ export interface ActorDTO {
      * @memberof ActorDTO
      */
     'providers': Array<ActorProviderDTO>;
+    /**
+     * The tags.
+     * @type {Array<TagValueDTO>}
+     * @memberof ActorDTO
+     */
+    'tags'?: Array<TagValueDTO>;
 }
 /**
  * 
@@ -120,7 +126,7 @@ export interface ActorProviderDTO {
      * @type {Array<TagValueDTO>}
      * @memberof ActorProviderDTO
      */
-    'tags'?: Array<TagValueDTO>;
+    'tags': Array<TagValueDTO>;
 }
 /**
  * 
@@ -526,7 +532,7 @@ export interface ThreadDTO {
      */
     'subject': string;
     /**
-     * The topic external ID
+     * The thread external ID
      * @type {string}
      * @memberof ThreadDTO
      */
