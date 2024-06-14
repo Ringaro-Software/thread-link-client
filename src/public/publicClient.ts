@@ -1,10 +1,11 @@
-import { Configuration, CreateMessageDTO, CreateTopicDTO, PublicMessageTemplatesApi, PublicMessagesApi, PublicThreadsApi, PublicTopicsApi, TopicFilterDTO } from '../oas';
+import { Configuration, CreateMessageDTO, CreateTopicDTO, PublicMessageTemplatesApi, PublicMessagesApi, PublicQueueApi, PublicThreadsApi, PublicTopicsApi, TopicFilterDTO } from '../oas';
 
 export class PublicClient {
   private messagesApi: PublicMessagesApi;
   private threadsApi: PublicThreadsApi;
   private topicsApi: PublicTopicsApi;
   private messageTemplatesApi: PublicMessageTemplatesApi;
+  private queueApi: PublicQueueApi;
 
   constructor(basePath: string = '', publicToken: string = '') {
     const config = new Configuration({
@@ -14,6 +15,7 @@ export class PublicClient {
     this.messagesApi = new PublicMessagesApi(config);
     this.threadsApi = new PublicThreadsApi(config);
     this.topicsApi = new PublicTopicsApi(config);
+    this.queueApi = new PublicQueueApi(config);
     this.messageTemplatesApi = new PublicMessageTemplatesApi(config);
   }
 
@@ -75,5 +77,15 @@ export class PublicClient {
 
   async renderMessageTemplate(name: string, type: 'text' | 'html', parameters: any) {
     return (await this.messageTemplatesApi.messageTemplatesControllerRenderTemplate(name, type, parameters)).data;
+  }
+
+  // Queue-related methods
+
+  async findAllQueueMessages(status?: 'pending' | 'processing' | 'completed' | 'failed' | 'skipped' | 'ignored' | 'deleted' | 'archived' | 'spam' | 'ham' | 'bounce' | 'complaint' | 'unsubscribed' | 'other') {
+    return (await this.queueApi.queueControllerFindAll(status)).data;
+  }
+
+  async updateQueueMessageStatus(id: string, status: 'pending' | 'ignored') {
+    return (await this.queueApi.queueControllerUpdateStatus(id, status)).data;
   }
 }

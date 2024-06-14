@@ -364,6 +364,121 @@
         ]
       }
     },
+    "/coms/queue": {
+      "get": {
+        "operationId": "QueueController_findAll",
+        "summary": "Get all messages in the queue",
+        "description": "Get all messages in the queue",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "path",
+            "description": "The status of the message",
+            "schema": {
+              "enum": [
+                "pending",
+                "processing",
+                "completed",
+                "failed",
+                "skipped",
+                "ignored",
+                "deleted",
+                "archived",
+                "spam",
+                "ham",
+                "bounce",
+                "complaint",
+                "unsubscribed",
+                "other"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "The ID of the message",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The messages in the thread",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QueueDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public/Queue"
+        ],
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/coms/queue/update-status/{id}": {
+      "put": {
+        "operationId": "QueueController_updateStatus",
+        "summary": "Update the status of a message in the queue",
+        "description": "Update the status of a message in the queue",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "The ID of the message",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": true,
+            "in": "path",
+            "description": "The status of the message",
+            "schema": {
+              "enum": [
+                "pending",
+                "ignored"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The messages in the thread",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueueDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public/Queue"
+        ],
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
     "/internal/accounts": {
       "get": {
         "operationId": "AccountsController_findAll",
@@ -1497,6 +1612,114 @@
           "externalId",
           "tags",
           "threads"
+        ]
+      },
+      "QueueDto": {
+        "type": "object",
+        "properties": {
+          "messageId": {
+            "type": "string",
+            "description": "The unique identifier of the message",
+            "example": "12345"
+          },
+          "inReplyTo": {
+            "type": "string",
+            "description": "The identifier of the message this is a reply to",
+            "example": "54321"
+          },
+          "references": {
+            "description": "An array of message identifiers that this message references",
+            "example": [
+              "67890",
+              "09876"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "to": {
+            "type": "string",
+            "description": "The recipient of the message",
+            "example": "john@example.com"
+          },
+          "from": {
+            "type": "string",
+            "description": "The sender of the message",
+            "example": "jane@example.com"
+          },
+          "subject": {
+            "type": "string",
+            "description": "The subject of the message",
+            "example": "Hello World"
+          },
+          "textContent": {
+            "type": "string",
+            "description": "The plain text content of the message",
+            "example": "This is the plain text content"
+          },
+          "htmlContent": {
+            "type": "string",
+            "description": "The HTML content of the message",
+            "example": "<p>This is the HTML content</p>"
+          },
+          "provider": {
+            "type": "string",
+            "description": "The provider of the communication channel",
+            "example": "Email"
+          },
+          "extraInfo": {
+            "type": "object",
+            "description": "Additional information related to the message",
+            "example": {
+              "key": "value"
+            }
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the message",
+            "example": "pending",
+            "enum": [
+              "pending",
+              "processing",
+              "completed",
+              "failed",
+              "skipped",
+              "ignored",
+              "deleted",
+              "archived",
+              "spam",
+              "ham",
+              "bounce",
+              "complaint",
+              "unsubscribed",
+              "other"
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "The date and time the message was created",
+            "example": "2021-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "The date and time the message was last updated",
+            "example": "2021-01-01T00:00:00.000Z"
+          }
+        },
+        "required": [
+          "messageId",
+          "to",
+          "from",
+          "subject",
+          "textContent",
+          "provider",
+          "extraInfo",
+          "status",
+          "createdAt",
+          "updatedAt"
         ]
       },
       "AccountDto": {

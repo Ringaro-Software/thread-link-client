@@ -460,6 +460,111 @@ export interface ProviderConfigurationDTO {
 /**
  * 
  * @export
+ * @interface QueueDto
+ */
+export interface QueueDto {
+    /**
+     * The unique identifier of the message
+     * @type {string}
+     * @memberof QueueDto
+     */
+    'messageId': string;
+    /**
+     * The identifier of the message this is a reply to
+     * @type {string}
+     * @memberof QueueDto
+     */
+    'inReplyTo'?: string;
+    /**
+     * An array of message identifiers that this message references
+     * @type {Array<string>}
+     * @memberof QueueDto
+     */
+    'references'?: Array<string>;
+    /**
+     * The recipient of the message
+     * @type {string}
+     * @memberof QueueDto
+     */
+    'to': string;
+    /**
+     * The sender of the message
+     * @type {string}
+     * @memberof QueueDto
+     */
+    'from': string;
+    /**
+     * The subject of the message
+     * @type {string}
+     * @memberof QueueDto
+     */
+    'subject': string;
+    /**
+     * The plain text content of the message
+     * @type {string}
+     * @memberof QueueDto
+     */
+    'textContent': string;
+    /**
+     * The HTML content of the message
+     * @type {string}
+     * @memberof QueueDto
+     */
+    'htmlContent'?: string;
+    /**
+     * The provider of the communication channel
+     * @type {string}
+     * @memberof QueueDto
+     */
+    'provider': string;
+    /**
+     * Additional information related to the message
+     * @type {object}
+     * @memberof QueueDto
+     */
+    'extraInfo': object;
+    /**
+     * The status of the message
+     * @type {string}
+     * @memberof QueueDto
+     */
+    'status': QueueDtoStatusEnum;
+    /**
+     * The date and time the message was created
+     * @type {string}
+     * @memberof QueueDto
+     */
+    'createdAt': string;
+    /**
+     * The date and time the message was last updated
+     * @type {string}
+     * @memberof QueueDto
+     */
+    'updatedAt': string;
+}
+
+export const QueueDtoStatusEnum = {
+    Pending: 'pending',
+    Processing: 'processing',
+    Completed: 'completed',
+    Failed: 'failed',
+    Skipped: 'skipped',
+    Ignored: 'ignored',
+    Deleted: 'deleted',
+    Archived: 'archived',
+    Spam: 'spam',
+    Ham: 'ham',
+    Bounce: 'bounce',
+    Complaint: 'complaint',
+    Unsubscribed: 'unsubscribed',
+    Other: 'other'
+} as const;
+
+export type QueueDtoStatusEnum = typeof QueueDtoStatusEnum[keyof typeof QueueDtoStatusEnum];
+
+/**
+ * 
+ * @export
  * @interface TagDTO
  */
 export interface TagDTO {
@@ -2049,6 +2154,231 @@ export class PublicMessagesApi extends BaseAPI {
     }
 }
 
+
+
+/**
+ * PublicQueueApi - axios parameter creator
+ * @export
+ */
+export const PublicQueueApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Get all messages in the queue
+         * @summary Get all messages in the queue
+         * @param {any} id The ID of the message
+         * @param {QueueControllerFindAllStatusEnum} [status] The status of the message
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        queueControllerFindAll: async (id: any, status?: QueueControllerFindAllStatusEnum, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('queueControllerFindAll', 'id', id)
+            const localVarPath = `/coms/queue`
+                .replace(`{${"status"}}`, encodeURIComponent(String(status)))
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication x-auth-token required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Update the status of a message in the queue
+         * @summary Update the status of a message in the queue
+         * @param {string} id The ID of the message
+         * @param {QueueControllerUpdateStatusStatusEnum} status The status of the message
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        queueControllerUpdateStatus: async (id: string, status: QueueControllerUpdateStatusStatusEnum, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('queueControllerUpdateStatus', 'id', id)
+            // verify required parameter 'status' is not null or undefined
+            assertParamExists('queueControllerUpdateStatus', 'status', status)
+            const localVarPath = `/coms/queue/update-status/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"status"}}`, encodeURIComponent(String(status)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication x-auth-token required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PublicQueueApi - functional programming interface
+ * @export
+ */
+export const PublicQueueApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PublicQueueApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Get all messages in the queue
+         * @summary Get all messages in the queue
+         * @param {any} id The ID of the message
+         * @param {QueueControllerFindAllStatusEnum} [status] The status of the message
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async queueControllerFindAll(id: any, status?: QueueControllerFindAllStatusEnum, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<QueueDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.queueControllerFindAll(id, status, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PublicQueueApi.queueControllerFindAll']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Update the status of a message in the queue
+         * @summary Update the status of a message in the queue
+         * @param {string} id The ID of the message
+         * @param {QueueControllerUpdateStatusStatusEnum} status The status of the message
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async queueControllerUpdateStatus(id: string, status: QueueControllerUpdateStatusStatusEnum, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<QueueDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.queueControllerUpdateStatus(id, status, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PublicQueueApi.queueControllerUpdateStatus']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * PublicQueueApi - factory interface
+ * @export
+ */
+export const PublicQueueApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PublicQueueApiFp(configuration)
+    return {
+        /**
+         * Get all messages in the queue
+         * @summary Get all messages in the queue
+         * @param {any} id The ID of the message
+         * @param {QueueControllerFindAllStatusEnum} [status] The status of the message
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        queueControllerFindAll(id: any, status?: QueueControllerFindAllStatusEnum, options?: any): AxiosPromise<Array<QueueDto>> {
+            return localVarFp.queueControllerFindAll(id, status, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Update the status of a message in the queue
+         * @summary Update the status of a message in the queue
+         * @param {string} id The ID of the message
+         * @param {QueueControllerUpdateStatusStatusEnum} status The status of the message
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        queueControllerUpdateStatus(id: string, status: QueueControllerUpdateStatusStatusEnum, options?: any): AxiosPromise<QueueDto> {
+            return localVarFp.queueControllerUpdateStatus(id, status, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PublicQueueApi - object-oriented interface
+ * @export
+ * @class PublicQueueApi
+ * @extends {BaseAPI}
+ */
+export class PublicQueueApi extends BaseAPI {
+    /**
+     * Get all messages in the queue
+     * @summary Get all messages in the queue
+     * @param {any} id The ID of the message
+     * @param {QueueControllerFindAllStatusEnum} [status] The status of the message
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PublicQueueApi
+     */
+    public queueControllerFindAll(id: any, status?: QueueControllerFindAllStatusEnum, options?: RawAxiosRequestConfig) {
+        return PublicQueueApiFp(this.configuration).queueControllerFindAll(id, status, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Update the status of a message in the queue
+     * @summary Update the status of a message in the queue
+     * @param {string} id The ID of the message
+     * @param {QueueControllerUpdateStatusStatusEnum} status The status of the message
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PublicQueueApi
+     */
+    public queueControllerUpdateStatus(id: string, status: QueueControllerUpdateStatusStatusEnum, options?: RawAxiosRequestConfig) {
+        return PublicQueueApiFp(this.configuration).queueControllerUpdateStatus(id, status, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+/**
+ * @export
+ */
+export const QueueControllerFindAllStatusEnum = {
+    Pending: 'pending',
+    Processing: 'processing',
+    Completed: 'completed',
+    Failed: 'failed',
+    Skipped: 'skipped',
+    Ignored: 'ignored',
+    Deleted: 'deleted',
+    Archived: 'archived',
+    Spam: 'spam',
+    Ham: 'ham',
+    Bounce: 'bounce',
+    Complaint: 'complaint',
+    Unsubscribed: 'unsubscribed',
+    Other: 'other'
+} as const;
+export type QueueControllerFindAllStatusEnum = typeof QueueControllerFindAllStatusEnum[keyof typeof QueueControllerFindAllStatusEnum];
+/**
+ * @export
+ */
+export const QueueControllerUpdateStatusStatusEnum = {
+    Pending: 'pending',
+    Ignored: 'ignored'
+} as const;
+export type QueueControllerUpdateStatusStatusEnum = typeof QueueControllerUpdateStatusStatusEnum[keyof typeof QueueControllerUpdateStatusStatusEnum];
 
 
 /**
