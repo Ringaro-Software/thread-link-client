@@ -2215,7 +2215,7 @@ export const PublicQueueApiAxiosParamCreator = function (configuration?: Configu
             assertParamExists('queueControllerUpdateStatus', 'id', id)
             // verify required parameter 'status' is not null or undefined
             assertParamExists('queueControllerUpdateStatus', 'status', status)
-            const localVarPath = `/coms/queue/update-status/{id}`
+            const localVarPath = `/coms/queue/update-status/{id}/{status}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)))
                 .replace(`{${"status"}}`, encodeURIComponent(String(status)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.

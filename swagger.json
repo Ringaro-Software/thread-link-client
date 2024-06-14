@@ -428,7 +428,7 @@
         ]
       }
     },
-    "/coms/queue/update-status/{id}": {
+    "/coms/queue/update-status/{id}/{status}": {
       "put": {
         "operationId": "QueueController_updateStatus",
         "summary": "Update the status of a message in the queue",
