@@ -37,7 +37,7 @@ async function testE2E() {
   });
   const topic1a1Id = topic1a1.id;
 
-  const thread1a1 = await account1PublicClient.createThread(topic1a1Id, generateThread());
+  const thread1a1 = await account1PublicClient.createTopicThread(topic1a1Id, generateThread());
   const thread1a1Id = thread1a1.id;
 
   const actors1a1 = thread1a1.actors;

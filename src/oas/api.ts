@@ -400,6 +400,18 @@ export interface MessageDTO {
      * @memberof MessageDTO
      */
     'providerId': string;
+    /**
+     * The updatedAt
+     * @type {string}
+     * @memberof MessageDTO
+     */
+    'updatedAt': string;
+    /**
+     * The createdAt
+     * @type {string}
+     * @memberof MessageDTO
+     */
+    'createdAt': string;
 }
 /**
  * 
@@ -643,9 +655,46 @@ export interface ThreadDTO {
      */
     'externalId': string;
     /**
+     * The updatedAt
+     * @type {string}
+     * @memberof ThreadDTO
+     */
+    'updatedAt': string;
+    /**
      * The tags.
      * @type {Array<TagValueDTO>}
      * @memberof ThreadDTO
+     */
+    'tags'?: Array<TagValueDTO>;
+}
+/**
+ * 
+ * @export
+ * @interface ThreadFilterDto
+ */
+export interface ThreadFilterDto {
+    /**
+     * The topic IDs. The ids will be queried using OR.
+     * @type {Array<string>}
+     * @memberof ThreadFilterDto
+     */
+    'topicId'?: Array<string>;
+    /**
+     * The thread IDs. The ids will be queried using OR.
+     * @type {Array<string>}
+     * @memberof ThreadFilterDto
+     */
+    'id'?: Array<string>;
+    /**
+     * The thread external IDs. The ids will be queried using OR.
+     * @type {Array<string>}
+     * @memberof ThreadFilterDto
+     */
+    'externalId'?: Array<string>;
+    /**
+     * The tags. The tags will be queried using the OR.
+     * @type {Array<TagValueDTO>}
+     * @memberof ThreadFilterDto
      */
     'tags'?: Array<TagValueDTO>;
 }
@@ -679,6 +728,18 @@ export interface TopicDTO {
      * @memberof TopicDTO
      */
     'threads': ThreadDTO;
+    /**
+     * The updatedAt
+     * @type {string}
+     * @memberof TopicDTO
+     */
+    'updatedAt': string;
+    /**
+     * The createdAt
+     * @type {string}
+     * @memberof TopicDTO
+     */
+    'createdAt': string;
 }
 /**
  * 
@@ -772,6 +833,35 @@ export const ExternalProvidersSNSApiAxiosParamCreator = function (configuration?
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        snsControllerTestSendSns: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/providers/sns/test-send`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -793,6 +883,17 @@ export const ExternalProvidersSNSApiFp = function(configuration?: Configuration)
             const localVarOperationServerBasePath = operationServerMap['ExternalProvidersSNSApi.snsControllerReceiveSns']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async snsControllerTestSendSns(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.snsControllerTestSendSns(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExternalProvidersSNSApi.snsControllerTestSendSns']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -810,6 +911,14 @@ export const ExternalProvidersSNSApiFactory = function (configuration?: Configur
          */
         snsControllerReceiveSns(options?: any): AxiosPromise<void> {
             return localVarFp.snsControllerReceiveSns(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        snsControllerTestSendSns(options?: any): AxiosPromise<void> {
+            return localVarFp.snsControllerTestSendSns(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -829,6 +938,16 @@ export class ExternalProvidersSNSApi extends BaseAPI {
      */
     public snsControllerReceiveSns(options?: RawAxiosRequestConfig) {
         return ExternalProvidersSNSApiFp(this.configuration).snsControllerReceiveSns(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExternalProvidersSNSApi
+     */
+    public snsControllerTestSendSns(options?: RawAxiosRequestConfig) {
+        return ExternalProvidersSNSApiFp(this.configuration).snsControllerTestSendSns(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2389,17 +2508,132 @@ export const PublicThreadsApiAxiosParamCreator = function (configuration?: Confi
     return {
         /**
          * 
+         * @summary Get all threads
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        threadsControllerFindAll: async (filter?: object, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/coms/threads`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication x-auth-token required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (filter !== undefined) {
+                for (const [key, value] of Object.entries(filter)) {
+                    localVarQueryParameter[key] = value;
+                }
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PublicThreadsApi - functional programming interface
+ * @export
+ */
+export const PublicThreadsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PublicThreadsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Get all threads
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async threadsControllerFindAll(filter?: object, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ThreadDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.threadsControllerFindAll(filter, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PublicThreadsApi.threadsControllerFindAll']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * PublicThreadsApi - factory interface
+ * @export
+ */
+export const PublicThreadsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PublicThreadsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Get all threads
+         * @param {object} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        threadsControllerFindAll(filter?: object, options?: any): AxiosPromise<Array<ThreadDTO>> {
+            return localVarFp.threadsControllerFindAll(filter, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PublicThreadsApi - object-oriented interface
+ * @export
+ * @class PublicThreadsApi
+ * @extends {BaseAPI}
+ */
+export class PublicThreadsApi extends BaseAPI {
+    /**
+     * 
+     * @summary Get all threads
+     * @param {object} [filter] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PublicThreadsApi
+     */
+    public threadsControllerFindAll(filter?: object, options?: RawAxiosRequestConfig) {
+        return PublicThreadsApiFp(this.configuration).threadsControllerFindAll(filter, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * PublicTopicThreadsApi - axios parameter creator
+ * @export
+ */
+export const PublicTopicThreadsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
          * @summary Create a new thread
          * @param {string} topicID The ID of the parent topic
          * @param {CreateThreadDTO} createThreadDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        threadsControllerCreate: async (topicID: string, createThreadDTO: CreateThreadDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        topicThreadsControllerCreate: async (topicID: string, createThreadDTO: CreateThreadDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'topicID' is not null or undefined
-            assertParamExists('threadsControllerCreate', 'topicID', topicID)
+            assertParamExists('topicThreadsControllerCreate', 'topicID', topicID)
             // verify required parameter 'createThreadDTO' is not null or undefined
-            assertParamExists('threadsControllerCreate', 'createThreadDTO', createThreadDTO)
+            assertParamExists('topicThreadsControllerCreate', 'createThreadDTO', createThreadDTO)
             const localVarPath = `/coms/topics/{topicID}/threads`
                 .replace(`{${"topicID"}}`, encodeURIComponent(String(topicID)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2433,14 +2667,13 @@ export const PublicThreadsApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * 
-         * @summary Get all threads
          * @param {string} topicID The ID of the parent topic
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        threadsControllerFindAll: async (topicID: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        topicThreadsControllerFindAll: async (topicID: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'topicID' is not null or undefined
-            assertParamExists('threadsControllerFindAll', 'topicID', topicID)
+            assertParamExists('topicThreadsControllerFindAll', 'topicID', topicID)
             const localVarPath = `/coms/topics/{topicID}/threads`
                 .replace(`{${"topicID"}}`, encodeURIComponent(String(topicID)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2477,11 +2710,11 @@ export const PublicThreadsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        threadsControllerFindById: async (threadId: string, topicID: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        topicThreadsControllerFindById: async (threadId: string, topicID: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'threadId' is not null or undefined
-            assertParamExists('threadsControllerFindById', 'threadId', threadId)
+            assertParamExists('topicThreadsControllerFindById', 'threadId', threadId)
             // verify required parameter 'topicID' is not null or undefined
-            assertParamExists('threadsControllerFindById', 'topicID', topicID)
+            assertParamExists('topicThreadsControllerFindById', 'topicID', topicID)
             const localVarPath = `/coms/topics/{topicID}/threads/{threadId}`
                 .replace(`{${"threadId"}}`, encodeURIComponent(String(threadId)))
                 .replace(`{${"topicID"}}`, encodeURIComponent(String(topicID)));
@@ -2519,11 +2752,11 @@ export const PublicThreadsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        threadsControllerGetTopicMessages: async (threadId: string, topicID: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        topicThreadsControllerGetTopicMessages: async (threadId: string, topicID: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'threadId' is not null or undefined
-            assertParamExists('threadsControllerGetTopicMessages', 'threadId', threadId)
+            assertParamExists('topicThreadsControllerGetTopicMessages', 'threadId', threadId)
             // verify required parameter 'topicID' is not null or undefined
-            assertParamExists('threadsControllerGetTopicMessages', 'topicID', topicID)
+            assertParamExists('topicThreadsControllerGetTopicMessages', 'topicID', topicID)
             const localVarPath = `/coms/topics/{topicID}/threads/{threadId}/messages`
                 .replace(`{${"threadId"}}`, encodeURIComponent(String(threadId)))
                 .replace(`{${"topicID"}}`, encodeURIComponent(String(topicID)));
@@ -2557,11 +2790,11 @@ export const PublicThreadsApiAxiosParamCreator = function (configuration?: Confi
 };
 
 /**
- * PublicThreadsApi - functional programming interface
+ * PublicTopicThreadsApi - functional programming interface
  * @export
  */
-export const PublicThreadsApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = PublicThreadsApiAxiosParamCreator(configuration)
+export const PublicTopicThreadsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PublicTopicThreadsApiAxiosParamCreator(configuration)
     return {
         /**
          * 
@@ -2571,23 +2804,22 @@ export const PublicThreadsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async threadsControllerCreate(topicID: string, createThreadDTO: CreateThreadDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ThreadDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.threadsControllerCreate(topicID, createThreadDTO, options);
+        async topicThreadsControllerCreate(topicID: string, createThreadDTO: CreateThreadDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ThreadDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.topicThreadsControllerCreate(topicID, createThreadDTO, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['PublicThreadsApi.threadsControllerCreate']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PublicTopicThreadsApi.topicThreadsControllerCreate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @summary Get all threads
          * @param {string} topicID The ID of the parent topic
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async threadsControllerFindAll(topicID: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ThreadDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.threadsControllerFindAll(topicID, options);
+        async topicThreadsControllerFindAll(topicID: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ThreadDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.topicThreadsControllerFindAll(topicID, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['PublicThreadsApi.threadsControllerFindAll']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PublicTopicThreadsApi.topicThreadsControllerFindAll']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -2598,10 +2830,10 @@ export const PublicThreadsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async threadsControllerFindById(threadId: string, topicID: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ThreadDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.threadsControllerFindById(threadId, topicID, options);
+        async topicThreadsControllerFindById(threadId: string, topicID: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ThreadDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.topicThreadsControllerFindById(threadId, topicID, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['PublicThreadsApi.threadsControllerFindById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PublicTopicThreadsApi.topicThreadsControllerFindById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -2612,21 +2844,21 @@ export const PublicThreadsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async threadsControllerGetTopicMessages(threadId: string, topicID: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<MessageDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.threadsControllerGetTopicMessages(threadId, topicID, options);
+        async topicThreadsControllerGetTopicMessages(threadId: string, topicID: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<MessageDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.topicThreadsControllerGetTopicMessages(threadId, topicID, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['PublicThreadsApi.threadsControllerGetTopicMessages']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PublicTopicThreadsApi.topicThreadsControllerGetTopicMessages']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * PublicThreadsApi - factory interface
+ * PublicTopicThreadsApi - factory interface
  * @export
  */
-export const PublicThreadsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = PublicThreadsApiFp(configuration)
+export const PublicTopicThreadsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PublicTopicThreadsApiFp(configuration)
     return {
         /**
          * 
@@ -2636,18 +2868,17 @@ export const PublicThreadsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        threadsControllerCreate(topicID: string, createThreadDTO: CreateThreadDTO, options?: any): AxiosPromise<ThreadDTO> {
-            return localVarFp.threadsControllerCreate(topicID, createThreadDTO, options).then((request) => request(axios, basePath));
+        topicThreadsControllerCreate(topicID: string, createThreadDTO: CreateThreadDTO, options?: any): AxiosPromise<ThreadDTO> {
+            return localVarFp.topicThreadsControllerCreate(topicID, createThreadDTO, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary Get all threads
          * @param {string} topicID The ID of the parent topic
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        threadsControllerFindAll(topicID: string, options?: any): AxiosPromise<Array<ThreadDTO>> {
-            return localVarFp.threadsControllerFindAll(topicID, options).then((request) => request(axios, basePath));
+        topicThreadsControllerFindAll(topicID: string, options?: any): AxiosPromise<Array<ThreadDTO>> {
+            return localVarFp.topicThreadsControllerFindAll(topicID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2657,8 +2888,8 @@ export const PublicThreadsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        threadsControllerFindById(threadId: string, topicID: string, options?: any): AxiosPromise<ThreadDTO> {
-            return localVarFp.threadsControllerFindById(threadId, topicID, options).then((request) => request(axios, basePath));
+        topicThreadsControllerFindById(threadId: string, topicID: string, options?: any): AxiosPromise<ThreadDTO> {
+            return localVarFp.topicThreadsControllerFindById(threadId, topicID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2668,19 +2899,19 @@ export const PublicThreadsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        threadsControllerGetTopicMessages(threadId: string, topicID: string, options?: any): AxiosPromise<Array<MessageDTO>> {
-            return localVarFp.threadsControllerGetTopicMessages(threadId, topicID, options).then((request) => request(axios, basePath));
+        topicThreadsControllerGetTopicMessages(threadId: string, topicID: string, options?: any): AxiosPromise<Array<MessageDTO>> {
+            return localVarFp.topicThreadsControllerGetTopicMessages(threadId, topicID, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * PublicThreadsApi - object-oriented interface
+ * PublicTopicThreadsApi - object-oriented interface
  * @export
- * @class PublicThreadsApi
+ * @class PublicTopicThreadsApi
  * @extends {BaseAPI}
  */
-export class PublicThreadsApi extends BaseAPI {
+export class PublicTopicThreadsApi extends BaseAPI {
     /**
      * 
      * @summary Create a new thread
@@ -2688,22 +2919,21 @@ export class PublicThreadsApi extends BaseAPI {
      * @param {CreateThreadDTO} createThreadDTO 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PublicThreadsApi
+     * @memberof PublicTopicThreadsApi
      */
-    public threadsControllerCreate(topicID: string, createThreadDTO: CreateThreadDTO, options?: RawAxiosRequestConfig) {
-        return PublicThreadsApiFp(this.configuration).threadsControllerCreate(topicID, createThreadDTO, options).then((request) => request(this.axios, this.basePath));
+    public topicThreadsControllerCreate(topicID: string, createThreadDTO: CreateThreadDTO, options?: RawAxiosRequestConfig) {
+        return PublicTopicThreadsApiFp(this.configuration).topicThreadsControllerCreate(topicID, createThreadDTO, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @summary Get all threads
      * @param {string} topicID The ID of the parent topic
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PublicThreadsApi
+     * @memberof PublicTopicThreadsApi
      */
-    public threadsControllerFindAll(topicID: string, options?: RawAxiosRequestConfig) {
-        return PublicThreadsApiFp(this.configuration).threadsControllerFindAll(topicID, options).then((request) => request(this.axios, this.basePath));
+    public topicThreadsControllerFindAll(topicID: string, options?: RawAxiosRequestConfig) {
+        return PublicTopicThreadsApiFp(this.configuration).topicThreadsControllerFindAll(topicID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2713,10 +2943,10 @@ export class PublicThreadsApi extends BaseAPI {
      * @param {string} topicID The ID of the parent topic
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PublicThreadsApi
+     * @memberof PublicTopicThreadsApi
      */
-    public threadsControllerFindById(threadId: string, topicID: string, options?: RawAxiosRequestConfig) {
-        return PublicThreadsApiFp(this.configuration).threadsControllerFindById(threadId, topicID, options).then((request) => request(this.axios, this.basePath));
+    public topicThreadsControllerFindById(threadId: string, topicID: string, options?: RawAxiosRequestConfig) {
+        return PublicTopicThreadsApiFp(this.configuration).topicThreadsControllerFindById(threadId, topicID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2726,10 +2956,10 @@ export class PublicThreadsApi extends BaseAPI {
      * @param {string} topicID The ID of the parent topic
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PublicThreadsApi
+     * @memberof PublicTopicThreadsApi
      */
-    public threadsControllerGetTopicMessages(threadId: string, topicID: string, options?: RawAxiosRequestConfig) {
-        return PublicThreadsApiFp(this.configuration).threadsControllerGetTopicMessages(threadId, topicID, options).then((request) => request(this.axios, this.basePath));
+    public topicThreadsControllerGetTopicMessages(threadId: string, topicID: string, options?: RawAxiosRequestConfig) {
+        return PublicTopicThreadsApiFp(this.configuration).topicThreadsControllerGetTopicMessages(threadId, topicID, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

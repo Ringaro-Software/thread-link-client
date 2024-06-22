@@ -1,6 +1,20 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/providers/sns/test-send": {
+      "get": {
+        "operationId": "SnsController_testSendSns",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "External/Providers/SNS"
+        ]
+      }
+    },
     "/providers/sns/receive": {
       "post": {
         "operationId": "SnsController_receiveSns",
@@ -17,7 +31,7 @@
     },
     "/coms/topics/{topicID}/threads": {
       "post": {
-        "operationId": "ThreadsController_create",
+        "operationId": "TopicThreadsController_create",
         "summary": "Create a new thread",
         "parameters": [
           {
@@ -53,7 +67,7 @@
           }
         },
         "tags": [
-          "Public/Threads"
+          "Public/Topic/Threads"
         ],
         "security": [
           {
@@ -62,8 +76,7 @@
         ]
       },
       "get": {
-        "operationId": "ThreadsController_findAll",
-        "summary": "Get all threads",
+        "operationId": "TopicThreadsController_findAll",
         "parameters": [
           {
             "name": "topicID",
@@ -91,7 +104,7 @@
           }
         },
         "tags": [
-          "Public/Threads"
+          "Public/Topic/Threads"
         ],
         "security": [
           {
@@ -102,7 +115,7 @@
     },
     "/coms/topics/{topicID}/threads/{threadId}": {
       "get": {
-        "operationId": "ThreadsController_findById",
+        "operationId": "TopicThreadsController_findById",
         "summary": "Get a thread by ID",
         "parameters": [
           {
@@ -137,7 +150,7 @@
           }
         },
         "tags": [
-          "Public/Threads"
+          "Public/Topic/Threads"
         ],
         "security": [
           {
@@ -148,7 +161,7 @@
     },
     "/coms/topics/{topicID}/threads/{threadId}/messages": {
       "get": {
-        "operationId": "ThreadsController_getTopicMessages",
+        "operationId": "TopicThreadsController_getTopicMessages",
         "summary": "Get all messages in a thread",
         "parameters": [
           {
@@ -186,7 +199,7 @@
           }
         },
         "tags": [
-          "Public/Threads"
+          "Public/Topic/Threads"
         ],
         "security": [
           {
@@ -245,6 +258,45 @@
         },
         "tags": [
           "Public/Messages"
+        ],
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/coms/threads": {
+      "get": {
+        "operationId": "ThreadsController_findAll",
+        "summary": "Get all threads",
+        "parameters": [
+          {
+            "name": "filter",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The threads in the topic",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ThreadDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public/Threads"
         ],
         "security": [
           {
@@ -1410,6 +1462,16 @@
             "type": "string",
             "description": "The actor's provider ID used in the message",
             "example": "5f3a7b3d8e1d1d001f5b1e3c"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "The updatedAt",
+            "example": "024-06-21T07:44:33.418Z"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "The createdAt",
+            "example": "024-06-21T07:44:33.418Z"
           }
         },
         "required": [
@@ -1417,7 +1479,9 @@
           "text",
           "parsedText",
           "actorId",
-          "providerId"
+          "providerId",
+          "updatedAt",
+          "createdAt"
         ]
       },
       "ThreadDTO": {
@@ -1452,6 +1516,11 @@
             "description": "The thread external ID",
             "example": "5f3a7b3d8e1d1d001f5b1e3c"
           },
+          "updatedAt": {
+            "type": "string",
+            "description": "The updatedAt",
+            "example": "024-06-21T07:44:33.418Z"
+          },
           "tags": {
             "description": "The tags.",
             "example": [
@@ -1471,8 +1540,57 @@
           "actors",
           "messages",
           "subject",
-          "externalId"
+          "externalId",
+          "updatedAt"
         ]
+      },
+      "ThreadFilterDto": {
+        "type": "object",
+        "properties": {
+          "topicId": {
+            "description": "The topic IDs. The ids will be queried using OR.",
+            "example": [
+              "5f3a7b3d8e1d1d001f5b1e3c"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "id": {
+            "description": "The thread IDs. The ids will be queried using OR.",
+            "example": [
+              "5f3a7b3d8e1d1d001f5b1e3c"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "externalId": {
+            "description": "The thread external IDs. The ids will be queried using OR.",
+            "example": [
+              "5f3a7b3d8e1d1d001f5b1e3c"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tags": {
+            "description": "The tags. The tags will be queried using the OR.",
+            "example": [
+              {
+                "key": "key",
+                "value": "value"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TagValueDTO"
+            }
+          }
+        }
       },
       "TopicFilterDTO": {
         "type": "object",
@@ -1605,13 +1723,25 @@
                 "$ref": "#/components/schemas/ThreadDTO"
               }
             ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "The updatedAt",
+            "example": "024-06-21T07:44:33.418Z"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "The createdAt",
+            "example": "024-06-21T07:44:33.418Z"
           }
         },
         "required": [
           "id",
           "externalId",
           "tags",
-          "threads"
+          "threads",
+          "updatedAt",
+          "createdAt"
         ]
       },
       "QueueDto": {
