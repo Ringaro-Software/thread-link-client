@@ -1,8 +1,9 @@
-import { Configuration, CreateMessageDTO, CreateTopicDTO, PublicMessageTemplatesApi, PublicMessagesApi, PublicQueueApi, PublicThreadsApi, PublicTopicsApi, TopicFilterDTO } from '../oas';
+import { Configuration, CreateMessageDTO, CreateTopicDTO, PublicMessageTemplatesApi, PublicMessagesApi, PublicQueueApi, PublicThreadsApi, PublicTopicThreadsApi, PublicTopicsApi, ThreadFilterDto, TopicFilterDTO } from '../oas';
 
 export class PublicClient {
   private messagesApi: PublicMessagesApi;
   private threadsApi: PublicThreadsApi;
+  private topicThreadsApi: PublicTopicThreadsApi;
   private topicsApi: PublicTopicsApi;
   private messageTemplatesApi: PublicMessageTemplatesApi;
   private queueApi: PublicQueueApi;
@@ -15,6 +16,7 @@ export class PublicClient {
     this.messagesApi = new PublicMessagesApi(config);
     this.threadsApi = new PublicThreadsApi(config);
     this.topicsApi = new PublicTopicsApi(config);
+    this.topicThreadsApi = new PublicTopicThreadsApi(config);
     this.queueApi = new PublicQueueApi(config);
     this.messageTemplatesApi = new PublicMessageTemplatesApi(config);
   }
@@ -25,20 +27,24 @@ export class PublicClient {
   }
 
   // Threads-related methods
-  async createThread(topicID: string, threadData: any) {
-    return (await this.threadsApi.threadsControllerCreate(topicID, threadData)).data;
+  async createTopicThread(topicID: string, threadData: any) {
+    return (await this.topicThreadsApi.topicThreadsControllerCreate(topicID, threadData)).data;
   }
 
-  async findAllThreads(topicID: string) {
-    return (await this.threadsApi.threadsControllerFindAll(topicID)).data;
+  async findAllTopicThreads(topicID: string) {
+    return (await this.topicThreadsApi.topicThreadsControllerFindAll(topicID)).data;
   }
 
-  async findThreadById(topicID: string, threadId: string) {
-    return (await this.threadsApi.threadsControllerFindById(threadId, topicID)).data;
+  async findTopicThreadById(topicID: string, threadId: string) {
+    return (await this.topicThreadsApi.topicThreadsControllerFindById(threadId, topicID)).data;
+  }
+
+  async findAllThreads(filter?: ThreadFilterDto) {
+    return (await this.threadsApi.threadsControllerFindAll(filter)).data;
   }
 
   async getTopicMessages(threadID: string, topicID: string) {
-    return (await this.threadsApi.threadsControllerGetTopicMessages(threadID, topicID)).data;
+    return (await this.topicThreadsApi.topicThreadsControllerGetTopicMessages(threadID, topicID)).data;
   }
 
   // Topics-related methods

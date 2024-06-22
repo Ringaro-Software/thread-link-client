@@ -1,6 +1,20 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/providers/sns/test-send": {
+      "get": {
+        "operationId": "SnsController_testSendSns",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "External/Providers/SNS"
+        ]
+      }
+    },
     "/providers/sns/receive": {
       "post": {
         "operationId": "SnsController_receiveSns",
@@ -1529,6 +1543,54 @@
           "externalId",
           "updatedAt"
         ]
+      },
+      "ThreadFilterDto": {
+        "type": "object",
+        "properties": {
+          "topicId": {
+            "description": "The topic IDs. The ids will be queried using OR.",
+            "example": [
+              "5f3a7b3d8e1d1d001f5b1e3c"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "id": {
+            "description": "The thread IDs. The ids will be queried using OR.",
+            "example": [
+              "5f3a7b3d8e1d1d001f5b1e3c"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "externalId": {
+            "description": "The thread external IDs. The ids will be queried using OR.",
+            "example": [
+              "5f3a7b3d8e1d1d001f5b1e3c"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tags": {
+            "description": "The tags. The tags will be queried using the OR.",
+            "example": [
+              {
+                "key": "key",
+                "value": "value"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TagValueDTO"
+            }
+          }
+        }
       },
       "TopicFilterDTO": {
         "type": "object",
