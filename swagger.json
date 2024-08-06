@@ -1,20 +1,6 @@
 {
   "openapi": "3.0.0",
   "paths": {
-    "/providers/sns/test-send": {
-      "get": {
-        "operationId": "SnsController_testSendSns",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "External/Providers/SNS"
-        ]
-      }
-    },
     "/providers/sns/receive": {
       "post": {
         "operationId": "SnsController_receiveSns",
@@ -425,7 +411,7 @@
           {
             "name": "status",
             "required": false,
-            "in": "path",
+            "in": "query",
             "description": "The status of the message",
             "schema": {
               "enum": [
