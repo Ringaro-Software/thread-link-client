@@ -2226,16 +2226,12 @@ export const PublicQueueApiAxiosParamCreator = function (configuration?: Configu
         /**
          * Get all messages in the queue
          * @summary Get all messages in the queue
-         * @param {any} id The ID of the message
          * @param {QueueControllerFindAllStatusEnum} [status] The status of the message
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        queueControllerFindAll: async (id: any, status?: QueueControllerFindAllStatusEnum, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('queueControllerFindAll', 'id', id)
-            const localVarPath = `/coms/queue`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+        queueControllerFindAll: async (status?: QueueControllerFindAllStatusEnum, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/coms/queue`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2321,13 +2317,12 @@ export const PublicQueueApiFp = function(configuration?: Configuration) {
         /**
          * Get all messages in the queue
          * @summary Get all messages in the queue
-         * @param {any} id The ID of the message
          * @param {QueueControllerFindAllStatusEnum} [status] The status of the message
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async queueControllerFindAll(id: any, status?: QueueControllerFindAllStatusEnum, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<QueueDto>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.queueControllerFindAll(id, status, options);
+        async queueControllerFindAll(status?: QueueControllerFindAllStatusEnum, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<QueueDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.queueControllerFindAll(status, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PublicQueueApi.queueControllerFindAll']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -2359,13 +2354,12 @@ export const PublicQueueApiFactory = function (configuration?: Configuration, ba
         /**
          * Get all messages in the queue
          * @summary Get all messages in the queue
-         * @param {any} id The ID of the message
          * @param {QueueControllerFindAllStatusEnum} [status] The status of the message
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        queueControllerFindAll(id: any, status?: QueueControllerFindAllStatusEnum, options?: any): AxiosPromise<Array<QueueDto>> {
-            return localVarFp.queueControllerFindAll(id, status, options).then((request) => request(axios, basePath));
+        queueControllerFindAll(status?: QueueControllerFindAllStatusEnum, options?: any): AxiosPromise<Array<QueueDto>> {
+            return localVarFp.queueControllerFindAll(status, options).then((request) => request(axios, basePath));
         },
         /**
          * Update the status of a message in the queue
@@ -2391,14 +2385,13 @@ export class PublicQueueApi extends BaseAPI {
     /**
      * Get all messages in the queue
      * @summary Get all messages in the queue
-     * @param {any} id The ID of the message
      * @param {QueueControllerFindAllStatusEnum} [status] The status of the message
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PublicQueueApi
      */
-    public queueControllerFindAll(id: any, status?: QueueControllerFindAllStatusEnum, options?: RawAxiosRequestConfig) {
-        return PublicQueueApiFp(this.configuration).queueControllerFindAll(id, status, options).then((request) => request(this.axios, this.basePath));
+    public queueControllerFindAll(status?: QueueControllerFindAllStatusEnum, options?: RawAxiosRequestConfig) {
+        return PublicQueueApiFp(this.configuration).queueControllerFindAll(status, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
