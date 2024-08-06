@@ -833,35 +833,6 @@ export const ExternalProvidersSNSApiAxiosParamCreator = function (configuration?
                 options: localVarRequestOptions,
             };
         },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        snsControllerTestSendSns: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/providers/sns/test-send`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
     }
 };
 
@@ -883,17 +854,6 @@ export const ExternalProvidersSNSApiFp = function(configuration?: Configuration)
             const localVarOperationServerBasePath = operationServerMap['ExternalProvidersSNSApi.snsControllerReceiveSns']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async snsControllerTestSendSns(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.snsControllerTestSendSns(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ExternalProvidersSNSApi.snsControllerTestSendSns']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
     }
 };
 
@@ -911,14 +871,6 @@ export const ExternalProvidersSNSApiFactory = function (configuration?: Configur
          */
         snsControllerReceiveSns(options?: any): AxiosPromise<void> {
             return localVarFp.snsControllerReceiveSns(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        snsControllerTestSendSns(options?: any): AxiosPromise<void> {
-            return localVarFp.snsControllerTestSendSns(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -938,16 +890,6 @@ export class ExternalProvidersSNSApi extends BaseAPI {
      */
     public snsControllerReceiveSns(options?: RawAxiosRequestConfig) {
         return ExternalProvidersSNSApiFp(this.configuration).snsControllerReceiveSns(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ExternalProvidersSNSApi
-     */
-    public snsControllerTestSendSns(options?: RawAxiosRequestConfig) {
-        return ExternalProvidersSNSApiFp(this.configuration).snsControllerTestSendSns(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2293,7 +2235,6 @@ export const PublicQueueApiAxiosParamCreator = function (configuration?: Configu
             // verify required parameter 'id' is not null or undefined
             assertParamExists('queueControllerFindAll', 'id', id)
             const localVarPath = `/coms/queue`
-                .replace(`{${"status"}}`, encodeURIComponent(String(status)))
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2309,6 +2250,10 @@ export const PublicQueueApiAxiosParamCreator = function (configuration?: Configu
             // authentication x-auth-token required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (status !== undefined) {
+                localVarQueryParameter['status'] = status;
+            }
 
 
     
